@@ -1,0 +1,47 @@
+% =====================================================================
+%  capitulos/01_intro.tex  --  SOLO CONTENIDO
+% =====================================================================
+%  Este fichero contiene únicamente texto. Fíjate en lo que NO hay:
+%    - \documentclass, \usepackage ni \begin{document}: eso es de main.tex
+%      y del .sty. main.tex lo incorpora con \include{capitulos/01_intro}.
+%    - colores ni márgenes: eso es diseño y vive en styles/mistilo.sty.
+%
+%  PISTAS PARA EDITAR
+%    - Una línea en blanco separa párrafos.
+%    - ~ es un espacio que NO permite salto de línea ("sección~2").
+%    - \emph{...} = cursiva de énfasis;  \textbf{...} = negrita.
+% =====================================================================
+
+% \section crea una sección numerada y la añade al índice.
+\section{Introducción}
+
+La programación paralela es hoy una herramienta cotidiana, pero escribir
+código paralelo eficiente y portable sigue siendo difícil. Una línea de
+trabajo de la Universidad de Valladolid propone describir los programas
+con especificaciones de alto nivel y dejar que un compilador modular
+genere el código final~\cite{gonzalez2011trasgo}.
+
+% \cite{clave} inserta una cita. La clave "gonzalez2011trasgo" apunta a
+% una entrada de bib/refs.bib. Si la clave no existe o está mal escrita
+% saldrá [?] y un aviso al compilar. El formato visible ([1],
+% (González, 2011)...) lo decide el estilo elegido en main.tex, no este
+% fichero.
+%
+% Para citar VARIAS referencias a la vez:
+%     \cite{gonzalez2011trasgo,fernandez2013hdt}
+
+% Entorno "aviso" definido en mistilo.sty. Sin argumento, el título
+% por defecto es "Aviso".
+\begin{aviso}
+  Este documento es solo un ejemplo para el taller: las referencias son
+  reales, el resto es ficticio.
+\end{aviso}
+
+% \subsection crea una subsección (1.1, 1.2...).
+\subsection{Estructura del informe}
+% \ref{etiqueta} pone el número de algo marcado con \label{etiqueta}.
+% Aquí "sec:datos" está definida en capitulos/02_datos.tex. Si se
+% reordenan las secciones, el número se actualiza solo (tras 2 pasadas).
+La sección~\ref{sec:datos} describe un formato binario para publicar
+grandes conjuntos de datos enlazados~\cite{fernandez2013hdt} y
+presenta una tabla resumen.

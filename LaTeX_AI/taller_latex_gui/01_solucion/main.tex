@@ -1,0 +1,93 @@
+% =====================================================================
+%  main.tex  --  "director de orquesta"
+% =====================================================================
+%  Este fichero SOLO ensambla el proyecto. No contiene diseño (está en
+%  styles/mistilo.sty) ni texto largo (está en capitulos/). Su trabajo:
+%    1. Elegir la clase de documento, el idioma y la bibliografía.
+%    2. Rellenar los datos del documento (título, autor...).
+%    3. Decidir el ORDEN de las partes: portada, índice, secciones,
+%       bibliografía.
+%
+%  CÓMO SE COMPILA (la bibliografía necesita el programa biber):
+%     pdflatex main -> biber main -> pdflatex main -> pdflatex main
+%  ¿Por qué tantas pasadas? La 1.ª recoge las citas, biber prepara la
+%  bibliografía y las dos últimas colocan números y referencias.
+%  Más cómodo, con un solo comando:   latexmk -pdf main.tex
+%  (En Overleaf basta con pulsar "Recompile".)
+%
+%  CÓMO LEER UN COMANDO LaTeX
+%    \comando[opciones]{argumento}
+%    - [opciones] son opcionales; {argumento} es el dato principal.
+%    - Todo lo que sigue a un  %  hasta final de línea es comentario.
+% =====================================================================
+
+% ---- Clase de documento ----
+% "article" sirve para informes y entregables cortos: se divide en
+% \section. Para un TFG largo cambia a "report" y usa \chapter.
+% 11pt = tamaño base de letra.
+\documentclass[11pt]{article}
+
+% ---- Idioma y codificación ----
+% inputenc: permite escribir tildes y ñ directamente.
+% babel[spanish]: traduce "Contents" a "Índice", pone la separación
+% silábica en español, etc.
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+
+% ---- Bibliografía ----
+% biblatex gestiona citas y bibliografía.
+%   backend=biber -> el programa que procesa el .bib (necesario).
+%   style=ieee    -> formato de las citas: [1], [2]...
+% QUÉ PUEDES CAMBIAR: style=apa, style=numeric, style=authoryear...
+% Prueba a cambiarlo y recompila: el texto de los capítulos NO se toca,
+% solo cambia cómo se ven las citas y la lista final.
+\usepackage[backend=biber,style=ieee]{biblatex}
+% Indica dónde está la base de datos de referencias.
+\addbibresource{bib/refs.bib}
+
+% ---- Nuestro paquete de estilo ----
+% Carga todo el diseño. La ruta es relativa a este fichero, así el
+% proyecto es portable: se copia la carpeta entera y compila.
+\usepackage{styles/mistilo}
+
+% ---- Datos del documento ----
+% Para cada entregable nuevo solo se cambian estas líneas.
+%   \titulodoc[título corto para la cabecera]{título completo}
+\titulodoc[Programación paralela y datos enlazados]{Programación paralela y datos enlazados: un informe de ejemplo}
+\autordoc{Nombre Apellido}                         % <- pon tu nombre
+\titulacion{Ingeniería informática}                % <- tu grado
+\mencion{Tecnologías de la información y la comunicación}   % <- tu mención
+% \fechadoc{Octubre de 2026}   % descomenta para fijar la fecha; si no,
+%                              % se usa la fecha de compilación
+
+% ---- Compilar solo una sección mientras trabajas ----
+% Si el documento es largo, compilar todo tarda. Descomenta esta línea
+% para compilar únicamente la sección 2. Con \include (y no \input) las
+% demás conservan su numeración. Vuelve a comentarla al terminar.
+% \includeonly{capitulos/02_datos}
+
+% =====================================================================
+%  A partir de aquí empieza el documento visible
+% =====================================================================
+\begin{document}
+
+\makeportada                      % portada definida en mistilo.sty
+
+\renewcommand{\contentsname}{Índice}   % título del índice
+\tableofcontents                  % genera el índice automáticamente
+\newpage
+
+% Cada \include inserta un fichero de capitulos/ SIN escribir ".tex".
+% \include empieza en página nueva: ideal para partes independientes.
+% (\input insertaría el texto tal cual, útil para fragmentos pequeños.)
+% PARA AÑADIR UNA SECCIÓN NUEVA:
+%   1) crea capitulos/03_conclusiones.tex con un \section{...}
+%   2) añade aquí la línea:  \include{capitulos/03_conclusiones}
+\include{capitulos/01_intro}
+\include{capitulos/02_datos}
+
+% Imprime la lista de referencias citadas con \cite en el texto.
+% Solo aparecen las que realmente has citado.
+\printbibliography[heading=bibintoc,title={Bibliografía}]
+
+\end{document}

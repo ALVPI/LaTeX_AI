@@ -1,0 +1,202 @@
+% =====================================================================
+%  mistilo.sty  --  todo el DISEÑO del documento en un único sitio
+% =====================================================================
+%  ¿QUÉ ES UN .sty?
+%  Un "paquete de estilo": un fichero de LaTeX que guarda instrucciones
+%  de diseño (colores, márgenes, títulos...) para no repetirlas en cada
+%  documento. Se carga desde main.tex con  \usepackage{styles/mistilo}.
+%  Es lo mismo que hacemos al escribir \usepackage{xcolor}, pero con un
+%  paquete hecho por nosotros.
+%
+%  CÓMO LEER ESTE FICHERO
+%  - Todo lo que empieza por  %  es un comentario: LaTeX lo ignora.
+%  - \RequirePackage{x} significa "carga el paquete x" (equivale a
+%    \usepackage, pero es la forma que se usa dentro de un .sty).
+%  - Cada bloque lleva una cabecera "----- Nombre -----" que explica su
+%    función y, cuando procede, "QUÉ PUEDES CAMBIAR".
+%
+%  REGLA DE ORO: si no es contenido, va aquí. Así main.tex y los
+%  capítulos quedan limpios, y puedes pasarle a la IA SOLO este fichero
+%  sin saturar su contexto.
+%
+%  Parte del preámbulo de la plantilla de entregables UVa (Template.tex),
+%  depurado y ampliado. El idioma (babel) y la codificación NO se cargan
+%  aquí: los decide cada documento en main.tex.
+% =====================================================================
+\NeedsTeXFormat{LaTeX2e}   % exige LaTeX2e, la versión actual
+\ProvidesPackage{styles/mistilo}[2026/10/09 Estilo del taller GUI]
+% ^ Declara el nombre y la fecha del paquete. El nombre debe coincidir
+%   con la ruta usada en \usepackage{styles/mistilo}.
+
+% ---------- Márgenes ----------
+% geometry define los márgenes de la página.
+% QUÉ PUEDES CAMBIAR: los valores en cm (p. ej. left=3cm para encuadernar).
+\RequirePackage[top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm]{geometry}
+
+% ---------- Gráficos ----------
+% graphicx añade \includegraphics para insertar imágenes y PDF.
+% (La plantilla original cargaba también "graphics": era redundante.)
+\RequirePackage{graphicx}
+% \graphicspath le dice a LaTeX en qué carpeta buscar las imágenes.
+% Con esto basta escribir \includegraphics{logo.pdf} en vez de
+% \includegraphics{Recursos/logo.pdf}. La carpeta se llama exactamente
+% "Recursos" y debe estar junto a main.tex.
+\graphicspath{{Recursos/}}
+\RequirePackage{float}      % permite [H]: "pon la figura JUSTO aquí"
+\RequirePackage{wrapfig}    % figuras con texto rodeándolas (poco usado)
+\RequirePackage{amssymb}    % símbolos matemáticos extra
+
+% ---------- Paleta ----------
+% Definimos los colores UNA vez, con un nombre. Después se usan por su
+% nombre (\color{acento}) en todo el documento.
+% QUÉ PUEDES CAMBIAR: el código HTML de 6 cifras. Prueba, por ejemplo,
+% {HTML}{B5473F} (rojo) y vuelve a compilar: cambia todo a la vez.
+\RequirePackage{xcolor}
+\definecolor{acento}{HTML}{3F6FB5}   % azul principal (enlaces, filetes)
+\definecolor{tinta}{HTML}{1F2A44}    % azul oscuro (títulos)
+\definecolor{suave}{HTML}{5E6B85}    % gris azulado (textos secundarios)
+
+% ---------- Tablas ----------
+% booktabs da tablas más limpias: \toprule, \midrule y \bottomrule
+% sustituyen a \hline y se evitan las líneas verticales.
+\RequirePackage{booktabs}
+
+% ---------- Pies de figura y de tabla ----------
+% caption personaliza el texto "Figura 1: ...". Aquí: letra pequeña y
+% la etiqueta ("Figura 1") en negrita y color.
+\RequirePackage{caption}
+\RequirePackage{capt-of}
+\captionsetup{font=small,labelfont={bf,color=tinta}}
+
+% ---------- Código (listings) ----------
+% listings muestra fragmentos de código con formato.
+% Uso en el texto:  \begin{lstlisting}[style=terminal] ... \end{lstlisting}
+\RequirePackage{listings}
+\lstset{
+  inputencoding=utf8,
+  extendedchars=true,
+  % "literate" permite escribir tildes y la ñ dentro del código.
+  literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1 {ñ}{{\~n}}1
+}
+% Estilo "terminal": fondo gris claro, tipo máquina de escribir y marco.
+\lstdefinestyle{terminal}{
+  backgroundcolor=\color{gray!10},   % gray!10 = 10 % de gris, 90 % blanco
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{acento},       % palabras clave en el color de acento
+  commentstyle=\color{suave},
+  frame=single,
+  rulecolor=\color{acento!40},       % acento!40 = acento al 40 % (más claro)
+  columns=fullflexible,
+  morecomment=[l]{//}                % //... se trata como comentario
+}
+
+% ---------- Hipervínculos ----------
+% hyperref hace clicables las referencias (\ref), las citas (\cite),
+% el índice y las URL. Elegimos UNA política: todos con el color de
+% acento (la plantilla original mezclaba hidelinks con blue/magenta/cyan).
+% QUÉ PUEDES CAMBIAR: pon colorlinks=false para enlaces sin color.
+\RequirePackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=acento,    % referencias internas (sección 2, tabla 1...)
+  citecolor=acento,    % citas bibliográficas [1]
+  urlcolor=acento,     % direcciones web
+  filecolor=acento     % enlaces a ficheros
+}
+
+% ---------- Títulos de sección ----------
+% titlesec cambia el aspecto de \section, \subsection, etc.
+% Sintaxis: \titleformat{comando}{formato}{etiqueta}{separación}{antes}[después]
+%   - formato:  fuente, tamaño y color del título
+%   - etiqueta: el número (\thesection = "1", "2"...)
+%   - [después]: aquí dibujamos un filete fino bajo el título (\titlerule)
+\RequirePackage{titlesec}
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{tinta}}{\thesection}{0.8em}{}[\color{acento!40}\titlerule]
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{tinta}}{\thesubsection}{0.8em}{}
+\titleformat{\subsubsection}
+  {\normalfont\normalsize\bfseries\color{tinta}}{\thesubsubsection}{0.8em}{}
+
+% ---------- Cabeceras y pies de página ----------
+% fancyhdr controla lo que sale arriba (cabecera) y abajo (pie).
+% Izquierda de la cabecera: título corto del documento (\titulodoc).
+% Derecha de la cabecera:   sección actual.
+% Pie, derecha:             número de página.
+\RequirePackage{fancyhdr}
+\pagestyle{fancy}                 % activa el estilo "fancy"
+\fancyhf{}                        % vacía cabeceras y pies por defecto
+\fancyhead[L]{\small\color{suave}\@tituloCorto}
+% \sectionmark se ejecuta cada vez que empieza una sección y guarda su
+% nombre; \rightmark es lo que luego se imprime en la cabecera.
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+\fancyhead[R]{\small\color{suave}\rightmark}
+\fancyfoot[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}   % grosor del filete bajo la cabecera
+% Las dos líneas siguientes solo colorean ese filete con el color de acento.
+\renewcommand{\headrule}{\hbox to\headwidth{\color{acento!40}\leaders\hrule height \headrulewidth\hfill}}
+
+% ---------- Cajas de aviso ----------
+% tcolorbox dibuja recuadros. Aquí creamos un entorno nuevo llamado
+% "aviso" que sustituye a los \fcolorbox copiados a mano.
+%   Uso:  \begin{aviso} texto \end{aviso}
+%         \begin{aviso}[Título propio] texto \end{aviso}
+% Dentro de \newtcolorbox{nombre}[nº argumentos][valor por defecto]{...}:
+%   [1][Aviso] = un argumento opcional cuyo valor por defecto es "Aviso".
+% QUÉ PUEDES CAMBIAR: colback (fondo), borderline west (borde izquierdo).
+\RequirePackage[skins]{tcolorbox}
+\newtcolorbox{aviso}[1][Aviso]{%
+  enhanced, frame hidden,                    % sin marco completo
+  borderline west={4pt}{0pt}{acento},        % solo borde izquierdo, 4 pt
+  colback=acento!8, arc=2pt,                 % fondo muy suave, esquinas casi rectas
+  title=#1, coltitle=acento, colbacktitle=acento!8,   % título = argumento #1
+  fonttitle=\bfseries,
+  before skip=10pt, after skip=10pt          % espacio antes y después
+}
+
+% ---------- Datos de la portada ----------
+% PATRÓN: guardamos cada dato en una "variable" (un comando interno) y
+% damos un comando público para rellenarla desde main.tex.
+%   \@tituloDoc  = variable interna (el @ indica que es interna)
+%   \titulodoc{} = comando público para rellenarla
+% Los valores de abajo son los de por defecto, por si main.tex no los
+% rellena.
+\newcommand{\@tituloDoc}{Título del documento}
+\newcommand{\@tituloCorto}{}
+\newcommand{\@autorDoc}{Nombre Apellido}
+\newcommand{\@titulacion}{}
+\newcommand{\@mencion}{}
+\newcommand{\@fechaDoc}{\today}      % \today = fecha del día de compilación
+% \titulodoc admite un argumento opcional con el título corto para la
+% cabecera:  \titulodoc[Corto]{Título largo}. Si se omite, se usa el largo.
+\newcommand{\titulodoc}[2][]{\renewcommand{\@tituloDoc}{#2}%
+  \renewcommand{\@tituloCorto}{\if\relax\detokenize{#1}\relax #2\else #1\fi}}
+\newcommand{\autordoc}[1]{\renewcommand{\@autorDoc}{#1}}
+\newcommand{\titulacion}[1]{\renewcommand{\@titulacion}{#1}}
+\newcommand{\mencion}[1]{\renewcommand{\@mencion}{#1}}
+\newcommand{\fechadoc}[1]{\renewcommand{\@fechaDoc}{#1}}
+
+% ---------- La portada ----------
+% \makeportada dibuja la portada con los datos guardados arriba.
+% Se escribe UNA vez en main.tex tras \begin{document}.
+% Elementos: logo, filete, título, filete, titulación, mención, autor y fecha.
+% \\[0.5cm] = salto de línea con 0,5 cm de espacio extra.
+% \rule{ancho}{grosor} dibuja una línea horizontal.
+% QUÉ PUEDES CAMBIAR: width=0.6\linewidth (tamaño del logo, 60 % del ancho)
+% o el nombre del fichero si usas otro logo (debe estar en Recursos/).
+\newcommand{\makeportada}{%
+  \begin{titlepage}
+    \thispagestyle{empty}      % sin cabecera ni número en la portada
+    \centering
+    \includegraphics[width=0.6\linewidth]{UVA-3881270087.pdf}\\[0.5cm]
+    {\color{acento}\rule{\linewidth}{0.3mm}}\\[0.5cm]
+    {\huge\bfseries\color{tinta}\@tituloDoc}\\[0.5cm]
+    {\color{acento}\rule{\linewidth}{0.3mm}}\\[1.5cm]
+    {\Large\bfseries\@titulacion}\\[0.3cm]
+    {\large\@mencion}\\[1.2cm]
+    {\Large\@autorDoc}\\[1.2cm]
+    {\large\color{suave}\@fechaDoc}
+  \end{titlepage}%
+}
+
+\endinput   % fin del paquete

@@ -1,0 +1,67 @@
+% =====================================================================
+%  capitulos/02_datos.tex  --  SOLO CONTENIDO
+% =====================================================================
+%  Sección 2 del informe. Aquí practicamos: etiquetas y referencias
+%  cruzadas, figuras, tablas y cajas de aviso.
+% =====================================================================
+\section{Datos enlazados a gran escala}
+% \label da un "nombre" a esta sección para poder citarla desde otro
+% sitio con \ref{sec:datos}. Convención: prefijo + tema
+% (sec: sección, fig: figura, tab: tabla).
+\label{sec:datos}
+
+El formato \emph{HDT} divide un conjunto de datos RDF en tres
+componentes: cabecera, diccionario y tripletas~\cite{fernandez2013hdt}.
+Esa separación es, en el fondo, la misma idea que aplicamos hoy a
+LaTeX: \textbf{dividir en módulos con una responsabilidad clara}.
+
+% ---- FIGURA ----
+% Un entorno "figure" crea una figura numerada con pie y etiqueta.
+%   [H]         = colócala exactamente aquí (lo permite el paquete float)
+%   \centering  = centrar
+%   \includegraphics[width=...]{fichero}: inserta la imagen.
+%        width=0.85\linewidth = 85 % del ancho del texto
+%        El fichero se busca en Recursos/ gracias a \graphicspath (.sty).
+%        Se usa el PDF vectorial (nítido a cualquier zoom), no el PNG.
+%   \caption    = texto del pie ("Figura 1: ...")
+%   \label      = nombre para citarla con \ref{fig:hdt}
+% PARA CAMBIAR LA FIGURA: guarda otra en Recursos/ y cambia el nombre.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\linewidth]{hdt_esquema.pdf}
+  \caption{Esquema de HDT (figura vectorial).}
+  \label{fig:hdt}
+\end{figure}
+
+% ---- TABLA ----
+% tabular define las columnas con {lll}: tres columnas alineadas a la
+% izquierda (c = centrada, r = derecha).
+%   &   separa columnas     \\   termina una fila
+%   \toprule \midrule \bottomrule: líneas horizontales de booktabs
+%   @{}...@{} en la definición quita el margen lateral sobrante.
+% PARA AÑADIR UNA FILA: copia una fila existente y cambia su texto
+% (no olvides los & ni el \\ final).
+\begin{table}[H]
+  \centering
+  \begin{tabular}{@{}lll@{}}
+    \toprule
+    \textbf{Componente} & \textbf{Contenido} & \textbf{Función} \\
+    \midrule
+    Header     & Metadatos        & Describe el conjunto de datos \\
+    Dictionary & Cadenas de texto & Evita repetirlas \\
+    Triples    & Estructura       & Representa el grafo \\
+    \bottomrule
+  \end{tabular}
+  \caption{Los tres componentes de HDT.}
+  \label{tab:hdt}
+\end{table}
+
+% \ref{fig:hdt} y \ref{tab:hdt} se sustituyen por los números reales.
+La figura~\ref{fig:hdt} y la tabla~\ref{tab:hdt} resumen la idea.
+
+% El mismo entorno "aviso", ahora con título propio (argumento opcional
+% entre corchetes).
+\begin{aviso}[Regla práctica]
+  Cuando copies y pegues un bloque por tercera vez, es hora de
+  convertirlo en un entorno.
+\end{aviso}

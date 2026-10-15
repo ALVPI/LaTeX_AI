@@ -1,0 +1,104 @@
+% =====================================================================
+%  refs.bib  --  base de datos de referencias
+% =====================================================================
+%  ¿QUÉ ES UN .bib?
+%  Un fichero de texto donde guardas cada referencia UNA sola vez. En
+%  el documento escribes \cite{clave} y LaTeX (con biblatex y biber)
+%  construye la lista final con el formato elegido en main.tex.
+%
+%  ANATOMÍA DE UNA ENTRADA
+%     (arroba)article{ clave,    <- tipo de entrada y clave (tú la eliges)
+%       author  = {...},         <- campo = {valor}
+%       title   = {...},
+%       ...
+%     }
+%  - Cada entrada empieza con el símbolo arroba seguido del TIPO. Aquí:
+%    article = artículo de revista. Otros tipos habituales:
+%    inproceedings (congreso), book (libro), misc (web, otros) y
+%    thesis (tesis o TFG). Mira las entradas reales más abajo.
+%    (En los comentarios de este fichero evitamos escribir la arroba
+%    para que biber no confunda un comentario con una entrada.)
+%  - La CLAVE es lo que escribes en \cite{...}. No lleva espacios ni
+%    tildes. Convención del taller: primerAutor + año + palabraClave
+%    (por ejemplo gonzalez2011trasgo).
+%  - Cada campo termina en coma (menos, opcionalmente, el último).
+%
+%  REGLAS QUE DAN PROBLEMAS A MENUDO
+%  1) Varios autores se separan con la palabra  and  (no con comas):
+%        author = {Apellido, Nombre and Apellido2, Nombre2}
+%  2) Las tildes se escriben a la manera de LaTeX: {\'a} {\'e} {\'i}
+%     {\'o} {\'u} {\~n}. (Con biber también funcionan las tildes
+%     normales si el fichero está guardado en UTF-8.)
+%  3) Las mayúsculas y siglas de los títulos se protegen con llaves:
+%     {RDF}, {HDT}. Si no, BibTeX/biblatex pueden pasarlas a minúscula.
+%  4) El DOI sirve para VERIFICAR la referencia: guárdalo siempre.
+%     Se escribe sin "https://doi.org/".
+%  5) Las páginas se separan con dos guiones:  pages = {226--234}.
+%
+%  CÓMO AÑADIR UNA REFERENCIA NUEVA
+%  1) Busca el artículo en Google Scholar -> Citar -> BibTeX
+%     (ver scholar_guia.md).
+%  2) Pega la entrada AL FINAL de este fichero.
+%  3) REVÍSALA con el DOI (títulos, autores, páginas, año).
+%  4) Úsala en el texto:  \cite{la_clave_nueva}
+%  5) Compila con la secuencia completa (pdflatex, biber, pdflatex x2).
+%
+%  Las dos entradas de abajo son artículos reales con autoría de
+%  profesorado de la Universidad de Valladolid. Datos contrastados en
+%  UVaDOC y en el Portal de la Ciencia de la UVa (enlaces en
+%  scholar_guia.md).
+% =====================================================================
+
+% ---------------------------------------------------------------------
+%  Entrada 1.  Arturo González-Escribano (Departamento de Informática,
+%  UVa) y Diego R. Llanos, del grupo de investigación Trasgo.
+%  Se cita en el texto con:  \cite{gonzalez2011trasgo}
+% ---------------------------------------------------------------------
+@article{gonzalez2011trasgo,
+  author  = {Gonz{\'a}lez-Escribano, Arturo and Llanos, Diego R.},
+  title   = {Trasgo: a nested-parallel programming system},
+  journal = {The Journal of Supercomputing},
+  year    = {2011},
+  volume  = {58},
+  number  = {2},
+  pages   = {226--234},
+  doi     = {10.1007/s11227-009-0367-5},
+}
+
+% ---------------------------------------------------------------------
+%  Entrada 2.  Miguel A. Martínez-Prieto (UVa) junto con J. D.
+%  Fernández y otros. Fíjate en:
+%    - 5 autores unidos con "and"
+%    - siglas protegidas con llaves: {RDF}, {HDT}
+%    - tildes escritas con {\'a}, {\'i}...
+%  Se cita en el texto con:  \cite{fernandez2013hdt}
+% ---------------------------------------------------------------------
+@article{fernandez2013hdt,
+  author  = {Fern{\'a}ndez, Javier D. and Mart{\'i}nez-Prieto, Miguel A.
+             and Guti{\'e}rrez, Claudio and Polleres, Axel and Arias, M.},
+  title   = {Binary {RDF} representation for publication and exchange ({HDT})},
+  journal = {Journal of Web Semantics},
+  year    = {2013},
+  volume  = {19},
+  pages   = {22--41},
+  doi     = {10.1016/j.websem.2013.01.002},
+}
+
+% ---------------------------------------------------------------------
+%  RETO (PASO 2): añade aquí la tercera referencia, obtenida de Google
+%  Scholar con el botón "Citar" -> BibTeX, y revísala con la lista de
+%  comprobación de scholar_guia.md. Después cítala en capitulos/01_intro.tex
+%  con \cite{su_clave}. Ver también prompts_ia.md.
+%  Plantilla vacía: copia las líneas de abajo SIN los %, y cambia
+%  "(arroba)" por el símbolo arroba:
+%
+%  (arroba)article{apellidoAño_palabra,
+%    author  = {Apellido, Nombre and Apellido2, Nombre2},
+%    title   = {Título del artículo},
+%    journal = {Nombre de la revista},
+%    year    = {2024},
+%    volume  = {},
+%    pages   = {},
+%    doi     = {},
+%  }
+% ---------------------------------------------------------------------

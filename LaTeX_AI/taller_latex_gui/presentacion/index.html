@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LaTeX + IA: modular, con estilo y bien citado</title>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EEF3F8;--paper:#FBFCFE;--ink:#1F2A44;--mute:#5E6B85;--line:#D5DEEA;--blue:#3F6FB5;--blue-soft:#E3ECF8;--mark:#FFE9A3;--green:#4C9A7B;--rose:#C9606B;--code:#F3F6FA;
+--serif:'Newsreader',Georgia,serif;--sans:'Figtree',system-ui,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;--hand:'Caveat','Segoe Print',cursive}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%;background:var(--bg);color:var(--ink);font-family:var(--sans);overflow:hidden}
+#stage{position:absolute;left:50%;top:50%;width:1280px;height:720px;transform-origin:center;background:var(--paper);box-shadow:0 10px 40px rgba(31,42,68,.12);border-radius:6px;overflow:hidden}
+.slide{position:absolute;inset:0;padding:64px 80px 84px;display:none;flex-direction:column}
+.slide.on{display:flex}
+h1{font-family:var(--serif);font-weight:600;font-size:76px;line-height:1.05;letter-spacing:-.02em}
+h2{font-family:var(--serif);font-weight:600;font-size:46px;line-height:1.1;letter-spacing:-.01em;margin-bottom:10px}
+h3{font-size:21px;font-weight:600;margin-bottom:8px}
+.lead{font-size:23px;color:var(--mute);line-height:1.45;max-width:880px;margin-bottom:30px}
+p,li{font-size:19px;line-height:1.5;color:var(--mute)}
+code,.m{font-family:var(--mono);font-size:.88em;background:var(--mark);padding:1px 6px;border-radius:4px;color:var(--ink)}
+.note{font-family:var(--hand);font-size:28px;color:var(--blue);transform:rotate(-2deg);display:inline-block}
+.grid{display:grid;gap:22px}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:24px 26px}
+.card.b{border-top:4px solid var(--blue)}.card.g{border-top:4px solid var(--green)}.card.r{border-top:4px solid var(--rose)}
+pre{font-family:var(--mono);font-size:16.5px;line-height:1.6;background:var(--code);border:1px solid var(--line);border-radius:10px;padding:20px 24px;color:var(--ink);white-space:pre-wrap}
+pre .c{color:#8A97AE}pre .k{color:var(--blue)}pre .s{color:var(--green)}
+.tag{font-family:var(--mono);font-size:14px;color:var(--blue);background:var(--blue-soft);padding:4px 10px;border-radius:20px;display:inline-block;margin-bottom:16px;width:fit-content}
+.foot{position:absolute;left:80px;right:80px;bottom:26px;display:flex;align-items:center;justify-content:space-between;font-size:14px;color:var(--mute)}
+.brand{display:flex;align-items:center;gap:12px}
+#logo{height:34px;min-width:34px;border-radius:8px;background:var(--ink);color:#fff;font:600 13px var(--mono);display:grid;place-items:center;padding:0 8px}
+#logo img{height:34px;display:block}
+.cover{justify-content:center}
+.cover h1{max-width:900px;margin-bottom:22px}
+.cover .big{height:64px;margin-bottom:44px;display:flex;align-items:center;gap:16px;font-size:18px;color:var(--mute)}
+.cover .big #logo{height:64px;min-width:64px;font-size:20px}
+ul{padding-left:22px}li{margin-bottom:8px}
+.ok li::marker{color:var(--green)}.no li::marker{color:var(--rose)}
+.row{display:flex;gap:18px;align-items:baseline;margin-bottom:12px}
+.row b{font-family:var(--serif);font-size:28px;color:var(--blue);min-width:34px}
+img.uva{width:100%;mix-blend-mode:multiply;display:block}
+.sm h3{font-size:18px;margin-bottom:4px}.sm p{font-size:16px;line-height:1.4}.sm{padding:16px 18px}
+#nav{position:fixed;right:14px;bottom:10px;font:13px var(--mono);color:var(--mute);display:flex;gap:6px;align-items:center}
+#nav button{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer;font:inherit}
+#nav button:focus-visible{outline:2px solid var(--blue)}
+</style>
+</head>
+<body>
+<div id="stage">
+
+<section class="slide on cover">
+  <div class="big"><span id="logo">GUI</span><span>Grupo Universitario de Informática · UVa</span></div>
+  <h1>LaTeX con IA: modular, con estilo y bien citado</h1>
+  <p class="lead">Convertimos la plantilla de entregables de la UVa en un proyecto modular, con estilo propio y bibliografía en .bib, usando la IA como ayudante sin perder el control.</p>
+  <span class="note">Taller para 3.º en adelante</span>
+</section>
+
+<section class="slide">
+  <span class="tag">Hoja de ruta</span>
+  <h2>Cinco piezas y una ayudante</h2>
+  <p class="lead" style="margin-bottom:22px">Trabajaremos sobre la plantilla de entregables de la UVa: primero la estructura a mano y después, la IA.</p>
+  <div class="grid g3">
+    <div class="card b"><div class="row"><b>1</b><h3>Modularidad</h3></div><p>Un fichero por capítulo y un <code>main.tex</code> que solo ensambla.</p></div>
+    <div class="card b"><div class="row"><b>2</b><h3>Bibliografía</h3></div><p>Un <code>.bib</code> aparte con <code>biblatex</code> y citas coherentes.</p></div>
+    <div class="card b"><div class="row"><b>3</b><h3>Estilos</h3></div><p>Preámbulo y componentes visuales en un <code>.sty</code> propio.</p></div>
+    <div class="card b"><div class="row"><b>4</b><h3>Templates</h3></div><p>Una clase o plantilla reutilizable para todos tus documentos.</p></div>
+    <div class="card b"><div class="row"><b>5</b><h3>Figuras vectoriales</h3></div><p>Vectorizar con Inkscape e incluir el PDF en <code>Recursos/</code>.</p></div>
+    <div class="card g"><div class="row"><b>6</b><h3>IA como ayudante</h3></div><p>Qué pedirle, qué vigilar y tres prompts útiles.</p></div>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">1 · Modularidad</span>
+  <h2>Un fichero por capítulo</h2>
+  <p class="lead">Se compila y se revisa por partes, y el control de versiones muestra cambios claros.</p>
+  <div class="grid g2" style="align-items:start">
+<pre>proyecto/
+├─ <span class="k">main.tex</span>   <span class="c">% solo ensambla</span>
+├─ styles/
+│  └─ mistilo.sty
+├─ capitulos/
+│  ├─ 01_intro.tex
+│  └─ 02_datos.tex
+├─ bib/
+│  └─ refs.bib
+└─ <span class="k">Recursos/</span>   <span class="c">% imágenes y logo</span></pre>
+    <div>
+<pre><span class="c">% main.tex</span>
+\usepackage{<span class="k">styles/mistilo</span>}
+\begin{document}
+\makeportada
+\include{capitulos/01_intro}
+\include{capitulos/02_datos}
+\end{document}</pre>
+      <p style="margin-top:16px"><code>\input</code> inserta texto tal cual. <code>\include</code> empieza página nueva y permite <code>\includeonly</code> para compilar solo un capítulo.</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">2 · Referencias</span>
+  <h2>La bibliografía, fuera del texto</h2>
+  <p class="lead">Las entradas viven en <code>refs.bib</code>; en el texto solo escribes la clave.</p>
+  <div class="grid g2" style="align-items:start">
+<pre><span class="c">% preámbulo</span>
+\usepackage[backend=biber,
+  style=ieee]{biblatex}
+\addbibresource{bib/refs.bib}
+
+<span class="c">% en el texto</span>
+Como muestra~\cite{shannon1948}...
+
+<span class="c">% al final</span>
+\printbibliography</pre>
+<pre><span class="c">% refs.bib</span>
+@article{<span class="k">shannon1948</span>,
+  author  = {Shannon, Claude E.},
+  title   = {A Mathematical Theory
+             of Communication},
+  journal = {Bell System Tech. J.},
+  year    = {1948}
+}</pre>
+  </div>
+  <p style="margin-top:18px">Cambiar de estilo (<code>ieee</code>, <code>apa</code>, <code>numeric</code>) es tocar una opción, no reescribir citas.</p>
+</section>
+
+<section class="slide">
+  <span class="tag">3 · Estilos</span>
+  <h2>El diseño, en tu propio paquete</h2>
+  <p class="lead">Todo lo que no es contenido va a <code>styles/mistilo.sty</code>: paquetes, márgenes, colores y cajas.</p>
+  <div class="grid g2" style="align-items:start">
+<pre>\ProvidesPackage{mistilo}
+\RequirePackage[margin=2.5cm]{geometry}
+\RequirePackage{xcolor,tcolorbox}
+\definecolor{<span class="k">acento</span>}{HTML}{3F6FB5}
+
+\newtcolorbox{aviso}{
+  colback=acento!8,
+  colframe=acento,
+  left=8pt, arc=3pt}</pre>
+    <div>
+      <div class="card g" style="margin-bottom:16px"><h3>Un cambio, efecto global</h3><p>Cambias el color de acento una vez y se actualiza en todo el documento.</p></div>
+      <div class="card b"><h3>Uso en el texto</h3><p><code>\begin{aviso} ... \end{aviso}</code> en cualquier capítulo.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">4 · Templates</span>
+  <h2>De un estilo a una plantilla</h2>
+  <p class="lead">Cuando el estilo se repite en varios documentos, se promueve a plantilla.</p>
+  <div class="grid g3">
+    <div class="card b"><h3>Paquete <span class="m">.sty</span></h3><p>Añade funciones a cualquier clase. Ideal para compartir cajas, colores y macros.</p></div>
+    <div class="card b"><h3>Clase <span class="m">.cls</span></h3><p>Define el documento entero: portada, cabeceras, tipo de capítulo y márgenes.</p></div>
+    <div class="card b"><h3>Repo plantilla</h3><p>Carpeta lista para clonar con estructura, <code>refs.bib</code> de ejemplo y README.</p></div>
+  </div>
+  <p style="margin-top:28px">Regla práctica: si lo copias y pegas entre proyectos por tercera vez, es momento de convertirlo en plantilla.</p>
+</section>
+
+<section class="slide">
+  <span class="tag">Caso práctico · plantilla UVa</span>
+  <h2>Radiografía de una plantilla real</h2>
+  <p class="lead" style="margin-bottom:22px">Nuestro punto de partida es <code>Template.tex</code>, la plantilla de entregables de la UVa.</p>
+  <div class="grid" style="grid-template-columns:290px 1fr;gap:34px;align-items:start">
+    <div><img class="uva" src="Recursos/UVA-3881270087.png" alt="Logotipo de la Universidad de Valladolid"><p style="margin-top:12px;font-size:16px">El logo vive en <code>Recursos/</code>, no suelto junto al <code>.tex</code>.</p></div>
+    <div class="grid g2" style="gap:14px">
+      <div class="card r sm"><h3>Una llave sin cerrar</h3><p><code>\title{...}</code> no se cierra y el documento no compila.</p></div>
+      <div class="card r sm"><h3>Paquetes repetidos</h3><p><code>graphics</code> y <code>graphicx</code>; <code>listings</code> dos veces.</p></div>
+      <div class="card r sm"><h3>Enlaces contradictorios</h3><p><code>hidelinks</code> y luego azul, magenta y cian.</p></div>
+      <div class="card r sm"><h3>Portada en el cuerpo</h3><p>Titulación y logo escritos a mano en cada entregable.</p></div>
+      <div class="card r sm"><h3>Todo mezclado</h3><p>Diseño y contenido en el mismo fichero.</p></div>
+      <div class="card r sm"><h3>Sin identidad</h3><p>Cabecera vacía y títulos sin jerarquía visual.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">Caso práctico · plantilla UVa</span>
+  <h2>De plantilla a estilo profesional</h2>
+  <p class="lead" style="margin-bottom:22px">El diseño se queda en el <code>.sty</code>; cada entregable solo rellena sus datos.</p>
+  <div class="grid g2" style="align-items:start">
+<pre><span class="c">% styles/mistilo.sty</span>
+\graphicspath{{Recursos/}}
+\definecolor{acento}{HTML}{3F6FB5}
+\titleformat{\section}{...\color{tinta}}...
+\fancyhead[L]{\@tituloCorto}
+\newcommand{\makeportada}{...}</pre>
+<pre><span class="c">% main.tex</span>
+\usepackage{<span class="k">styles/mistilo</span>}
+\titulodoc{Mi informe}
+\autordoc{Nombre Apellido}
+\titulacion{Ingeniería informática}
+\begin{document}
+\makeportada</pre>
+  </div>
+  <p style="margin-top:20px">Portada, cabeceras, títulos, enlaces y cajas comparten una sola paleta: cambiar <code>acento</code> recolorea todo el documento.</p>
+</section>
+
+<section class="slide">
+  <span class="tag">5 · Figuras con Inkscape</span>
+  <h2>Vectorizar una imagen en cuatro pasos</h2>
+  <p class="lead" style="margin-bottom:22px">Un PDF vectorial se ve nítido a cualquier zoom y a cualquier tamaño de impresión.</p>
+  <div class="grid" style="grid-template-columns:1.25fr 1fr;gap:28px;align-items:start">
+    <div>
+      <div class="row"><b>1</b><p><b style="color:var(--ink)">Importa</b> el PNG con <code>Ctrl+I</code>.</p></div>
+      <div class="row"><b>2</b><p><b style="color:var(--ink)">Traza</b>: Camino → Vectorizar mapa de bits (<code>Mayús+Alt+B</code>).</p></div>
+      <div class="row"><b>3</b><p><b style="color:var(--ink)">Limpia</b>: simplifica con <code>Ctrl+L</code>, borra el bitmap y ajusta la página al contenido.</p></div>
+      <div class="row"><b>4</b><p><b style="color:var(--ink)">Exporta</b>: Guardar una copia → PDF, dentro de <code>Recursos/</code>.</p></div>
+    </div>
+    <div class="grid" style="gap:14px">
+      <div class="card g ok sm"><h3>Sí vectorizar</h3><p>Logos, esquemas, diagramas y dibujos de línea.</p></div>
+      <div class="card r no sm"><h3>No vectorizar</h3><p>Fotografías y capturas: mejor PNG o JPG a buena resolución.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">5 · Figuras con Inkscape</span>
+  <h2>Incluirlo en LaTeX</h2>
+  <p class="lead" style="margin-bottom:20px">Tres caminos, de más simple a más integrado con el documento.</p>
+  <div class="grid g3" style="align-items:start;gap:16px">
+    <div><h3>A · PDF directo</h3>
+<pre style="font-size:14.5px">\includegraphics[width=.85\linewidth]
+  {<span class="k">hdt_esquema.pdf</span>}</pre><p class="sm" style="font-size:16px;margin-top:8px">La más sencilla. Gracias a <code>\graphicspath</code> no hace falta la ruta.</p></div>
+    <div><h3>B · PDF + pdf_tex</h3>
+<pre style="font-size:14.5px">\def\svgwidth{.85\linewidth}
+\input{<span class="k">Recursos/hdt_esquema</span>
+  <span class="k">.pdf_tex</span>}</pre><p style="font-size:16px;margin-top:8px">El texto usa la tipografía del documento y admite fórmulas.</p></div>
+    <div><h3>C · Paquete svg</h3>
+<pre style="font-size:14.5px">\usepackage{svg}
+\includesvg[width=.85\linewidth]
+  {<span class="k">Recursos/hdt_esquema</span>}</pre><p style="font-size:16px;margin-top:8px">Necesita Inkscape y <code>-shell-escape</code>. En Overleaf, mejor A o B.</p></div>
+  </div>
+  <p style="margin-top:22px"><span class="note">Conserva siempre el .svg fuente junto al PDF.</span></p>
+</section>
+
+<section class="slide">
+  <span class="tag">6 · IA</span>
+  <h2>Qué pedirle y qué no</h2>
+  <p class="lead">La IA es muy buena con código repetitivo y regular; el contenido y su rigor siguen siendo tuyos.</p>
+  <div class="grid g2">
+    <div class="card g ok"><h3>Pídele</h3><ul><li>Refactorizar un monolito en capítulos.</li><li>Crear o ajustar cajas y estilos.</li><li>Pasar datos a una tabla <code>booktabs</code>.</li><li>Explicar un error de compilación.</li></ul></div>
+    <div class="card r no"><h3>Vigila</h3><ul><li>Paquetes o comandos que no existen.</li><li>Referencias inventadas: verifica DOI y autores.</li><li>Cambios en ficheros que no pediste tocar.</li><li>Peticiones enormes de una sola vez.</li></ul></div>
+  </div>
+  <p style="margin-top:22px"><span class="note">Trabaja fichero a fichero y compila tras cada cambio.</span></p>
+</section>
+
+<section class="slide">
+  <span class="tag">6 · IA aplicada</span>
+  <h2>Tres prompts, tres tareas</h2>
+  <p class="lead">Un buen prompt indica el fichero, lo que debe cambiar y lo que no debe tocar.</p>
+  <div class="grid" style="gap:16px">
+<pre><b>Estilos</b>  Aquí está mi <span class="k">mistilo.sty</span> [pegar]. Cambia solo el entorno <span class="k">aviso</span> para añadir un borde izquierdo de 4 pt en azul marino. No toques lo demás.</pre>
+<pre><b>Templates</b>  Convierte la portada de esta plantilla [pegar] en un comando <span class="k">\makeportada</span> con título, autor y titulación como parámetros. No toques el resto.</pre>
+<pre><b>Referencias</b>  A partir de este DOI/texto [pegar], genera la entrada BibTeX con clave <span class="k">autorAño</span>. Marca los campos que no puedas confirmar.</pre>
+  </div>
+</section>
+
+<section class="slide cover">
+  <span class="tag">Práctica</span>
+  <h1 style="font-size:60px">Ahora lo hacemos tú y yo</h1>
+  <p class="lead" style="margin-top:18px">Parte de <code>monolito.tex</code> (la plantilla UVa) y llévalo, paso a paso, a una estructura modular con estilo y bibliografía propios.</p>
+  <div class="grid g3" style="max-width:900px">
+    <div class="card b"><h3>Divide</h3><p>Secciones, <code>.sty</code> y portada.</p></div>
+    <div class="card b"><h3>Cita</h3><p>Un <code>.bib</code> con IA y revisión.</p></div>
+    <div class="card b"><h3>Profesionaliza</h3><p>Cabeceras, títulos y cajas.</p></div>
+  </div>
+</section>
+
+<div class="foot"><div class="brand"><span id="logo2"></span><span>Grupo Universitario de Informática · UVa</span></div><span id="count"></span></div>
+</div>
+<div id="nav"><button id="p" aria-label="Anterior">←</button><button id="n" aria-label="Siguiente">→</button></div>
+<script>
+const S=[...document.querySelectorAll('.slide')],st=document.getElementById('stage'),f=st.querySelector('.foot');let i=0;
+function go(k){i=Math.max(0,Math.min(S.length-1,k));S.forEach((s,j)=>s.classList.toggle('on',j===i));f.style.display=i===0?'none':'flex';document.getElementById('count').textContent=(i+1)+' / '+S.length;try{history.replaceState(null,'','#'+(i+1))}catch(e){}}
+function fit(){const k=Math.min(innerWidth/1280,innerHeight/720)*.98;st.style.transform='translate(-50%,-50%) scale('+k+')'}
+document.getElementById('logo2').id='logo';document.querySelector('.brand #logo').textContent='GUI';
+document.addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key))go(i+1);if(['ArrowLeft','PageUp'].includes(e.key))go(i-1)});
+document.getElementById('n').onclick=()=>go(i+1);document.getElementById('p').onclick=()=>go(i-1);
+addEventListener('resize',fit);fit();go((parseInt(location.hash.slice(1))||1)-1);
+</script>
+</body>
+</html>

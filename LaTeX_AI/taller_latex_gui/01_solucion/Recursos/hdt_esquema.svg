@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="160" viewBox="0 0 600 160">
+  <g font-family="Helvetica, Arial, sans-serif" font-size="16" text-anchor="middle">
+    <rect x="10"  y="30" width="170" height="90" rx="8" fill="#E3ECF8" stroke="#3F6FB5" stroke-width="2"/>
+    <rect x="215" y="30" width="170" height="90" rx="8" fill="#E3ECF8" stroke="#3F6FB5" stroke-width="2"/>
+    <rect x="420" y="30" width="170" height="90" rx="8" fill="#E3ECF8" stroke="#3F6FB5" stroke-width="2"/>
+    <text x="95"  y="68" font-weight="bold" fill="#1F2A44">Header</text>
+    <text x="95"  y="92" fill="#5E6B85">metadatos</text>
+    <text x="300" y="68" font-weight="bold" fill="#1F2A44">Dictionary</text>
+    <text x="300" y="92" fill="#5E6B85">cadenas únicas</text>
+    <text x="505" y="68" font-weight="bold" fill="#1F2A44">Triples</text>
+    <text x="505" y="92" fill="#5E6B85">estructura del grafo</text>
+  </g>
+  <g stroke="#3F6FB5" stroke-width="2" fill="#3F6FB5">
+    <line x1="180" y1="75" x2="207" y2="75"/><polygon points="215,75 205,70 205,80" stroke="none"/>
+    <line x1="385" y1="75" x2="412" y2="75"/><polygon points="420,75 410,70 410,80" stroke="none"/>
+  </g>
+</svg>
